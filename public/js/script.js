@@ -12,7 +12,7 @@ $(document).ready(function () {
 	getFiles();
 	updateTree();
 
-	$(document).on('click', '#file-tree > p', function () {
+	$(document).on('click', '#folders-panel > .file-node', function () {
 		if ($(this).attr('js-type') === 'directory') {
 			updateViewer.call(this);
 		} else {
@@ -60,8 +60,8 @@ function getFiles() {
 }
 
 function updateTree() {
-	$('#file-tree').html(files.filter(el => el.type === 'directory').map(components.tree.node).join('\n'));
-	$('#file-tree > p').each(function () {
+	$('#folders-panel').html(files.filter(el => el.type === 'directory').map(components.tree.node).join('\n'));
+	$('#folders-panel > .file-node').each(function () {
 		$(this).css('padding-left', 3 + 6 * (+$(this).attr('js-level') - 1));
 		$(this).addClass('type-' + $(this).attr('js-type'));
 	});
@@ -69,8 +69,8 @@ function updateTree() {
 
 function updateViewer() {
 	let that = this;
-	$('#viewer').html(files.filter(el => el.parent.indexOf($(this).attr('js-path')) !== -1).map(components.tree.node).join('\n'));
-	$('#viewer > p').each(function () {
+	$('#files-panel').html(files.filter(el => el.parent.indexOf($(this).attr('js-path')) !== -1).map(components.tree.node).join('\n'));
+	$('#files-panel > .file-node').each(function () {
 		$(this).css('padding-left', 3 + 6 * (+$(this).attr('js-level') - +$(that).attr('js-level') - 1));
 		$(this).addClass('type-' + $(this).attr('js-type'));
 	});

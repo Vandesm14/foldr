@@ -1,84 +1,89 @@
 :root {
-	--primary: #5795FF;
+  --primary: #5795ff;
 }
 
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-html, body {
-	margin: 0;
-	padding: 0;
-	width: 100vw;
-	height: 100vh;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
 body {
-	display: flex;
-	flex-direction: column;
-	background-color: white;
-	color: black;
-	font-family: Calibri, sans-serif;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  color: black;
+  font-family: Calibri, sans-serif;
 }
 
-div, h1, p {
-	margin: 0;
-	padding: 0;
+div,
+h1,
+p {
+  margin: 0;
+  padding: 0;
 }
 
-a, a:visited {
-	color: #0000dd;
+a,
+a:visited {
+  color: #0000dd;
 }
 
 /* ----------App---------- */
 .header {
-	display: flex;
-	flex-direction: row;
-	height: 6vh;
-	background-color: var(--primary);
+  display: flex;
+  flex-direction: row;
+  height: 6vh;
+  background-color: var(--primary);
 }
 
 .workspace {
-	display: flex;
-	flex-direction: row;
-	flex: 1;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
 }
 
-.workspace > .sidebar {
-	display: flex;
-	flex-direction: column;
-	width: 16vw;
-	border-right: 1px solid lightgrey;
+.workspace > .folders-panel {
+  display: flex;
+  flex-direction: column;
+  width: 16vw;
+  border-right: 1px solid lightgrey;
 }
 
-.workspace > .sidebar > .file-tree, .workspace > .viewer {
-	display: flex;
-	flex-direction: column;
-	padding: 4px;
+.workspace > .folders-panel,
+.workspace > .files-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
 }
 
-.workspace > .sidebar > .file-tree > p, .workspace > .viewer > p {
-	padding: 3px;
-	border-radius: 3px;
+.workspace > .files-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
-.workspace > .sidebar > .file-tree > p:before, .workspace > .viewer > p:before {
-	content: '📁';
-	padding: inherit;
-}
-.workspace > .sidebar > .file-tree > p.type-file:before, .workspace > .viewer > p.type-file:before {
-	content: '📄';
-	padding: inherit;
+.workspace .file-node {
+  padding: 3px;
+  border-radius: 3px;
 }
 
-.workspace > .sidebar > .file-tree > p:hover, .workspace > .viewer > p:hover {
-	background-color: var(--primary);
-	color: white;
-	cursor: pointer;
+.workspace .file-node:before {
+  padding: inherit;
+  content: '📁';
+}
+.workspace .file-node.type-file:before {
+  padding: inherit;
+  content: '📄';
 }
 
-.workspace > .viewer {
-	display: flex;
-	flex-direction: column;
-	flex: 1;
+.workspace .file-node:hover {
+  background-color: var(--primary);
+  color: white;
+  cursor: pointer;
 }
