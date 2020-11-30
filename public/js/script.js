@@ -11,6 +11,14 @@ let files = [];
 $(document).ready(function () {
 	getFiles();
 	updateTree();
+
+	$(document).on('click', '#file-tree > p', function () {
+		if ($(this).attr('js-type') === 'directory') {
+			updateViewer.call(this);
+		} else {
+			// render file type
+		}
+	});
 });
 
 function getFiles() {
@@ -23,6 +31,7 @@ function getFiles() {
 		names = names.map(function (el) {
 			el = {
 				name: el,
+				parent: pathlib.join(...pwd),
 				path: pathlib.join(...pwd, el),
 				level: pwd.length
 			};
@@ -37,7 +46,6 @@ function getFiles() {
 			}
 			return el;
 		});
-		// return names;
 		list.push(...names);
 	}
 	dir(pathlib.join(...pwd));
@@ -54,6 +62,16 @@ function getFiles() {
 function updateTree() {
 	$('#file-tree').html(files.filter(el => el.type === 'directory').map(components.tree.node).join('\n'));
 	$('#file-tree > p').each(function () {
-		$(this).css('margin-left', 16 * (+$(this).attr('js-level') - 1));
+		$(this).css('padding-left', 3 + 6 * (+$(this).attr('js-level') - 1));
+		$(this).addClass('type-' + $(this).attr('js-type'));
+	});
+}
+
+function updateViewer() {
+	let that = this;
+	$('#viewer').html(files.filter(el => el.parent.indexOf($(this).attr('js-path')) !== -1).map(components.tree.node).join('\n'));
+	$('#viewer > p').each(function () {
+		$(this).css('padding-left', 3 + 6 * (+$(this).attr('js-level') - +$(that).attr('js-level') - 1));
+		$(this).addClass('type-' + $(this).attr('js-type'));
 	});
 }

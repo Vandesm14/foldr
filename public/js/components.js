@@ -1,7 +1,7 @@
 const components = {
 	tree: {
 		node: (node) => {
-			return `<p js-path="${node.path}" js-level="${node.level}" js-type="${node.type}">${node.name}</p>`
+			return `<p ${Object.keys(node).map(el => 'js-' + el + '="' + node[el]  + '"').join(' ')}>${node.name}</p>`
 		}
 	}
 }

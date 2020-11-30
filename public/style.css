@@ -1,5 +1,5 @@
 :root {
-	--primary: #00b3e9;
+	--primary: #5795FF;
 }
 
 * {
@@ -51,18 +51,27 @@ a, a:visited {
 	border-right: 1px solid lightgrey;
 }
 
-.workspace > .sidebar > .file-tree {
+.workspace > .sidebar > .file-tree, .workspace > .viewer {
 	display: flex;
 	flex-direction: column;
 	padding: 4px;
 }
 
-.workspace > .sidebar > .file-tree > p {
-	padding: 4px 6px;
+.workspace > .sidebar > .file-tree > p, .workspace > .viewer > p {
+	padding: 3px;
 	border-radius: 3px;
 }
 
-.workspace > .sidebar > .file-tree > p:hover {
+.workspace > .sidebar > .file-tree > p:before, .workspace > .viewer > p:before {
+	content: '📁';
+	padding: inherit;
+}
+.workspace > .sidebar > .file-tree > p.type-file:before, .workspace > .viewer > p.type-file:before {
+	content: '📄';
+	padding: inherit;
+}
+
+.workspace > .sidebar > .file-tree > p:hover, .workspace > .viewer > p:hover {
 	background-color: var(--primary);
 	color: white;
 	cursor: pointer;
