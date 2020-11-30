@@ -1,3 +1,7 @@
+* {
+	box-sizing: border-box;
+}
+
 html, body {
 	margin: 0;
 	padding: 0;
@@ -23,3 +27,26 @@ a, a:visited {
 }
 
 /* ----------App---------- */
+.header {
+	display: flex;
+	flex-direction: row;
+	height: 10vh;
+}
+
+.workspace {
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+}
+
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	width: 50vw;
+}
+
+.viewer {
+	display: flex;
+	flex-direction: column;
+	width: 50vw;
+}

@@ -10,6 +10,7 @@
   "start": "nw"
  },
  "dependencies": {
+  "minimist": "^1.2.5",
   "nw": "^0.46.4"
  },
  "devDependencies": {},
