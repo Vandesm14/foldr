@@ -1,15 +1,16 @@
 const fs = require('fs');
 const pathlib = require('path');
 const settings = {
-	ignore: ['.git', 'node_modules']
+	ignore: ['.git', 'node_modules', '.vscode']
 };
 
 const params = new URLSearchParams(window.location.search);
 const path = params.get('path');
-let files = getFiles(path);
+let files = [];
 
 $(document).ready(function () {
-	console.log(files);
+	getFiles();
+	updateTree();
 });
 
 function getFiles() {
@@ -37,8 +38,22 @@ function getFiles() {
 			return el;
 		});
 		// return names;
-		list.push(...names)
+		list.push(...names);
 	}
 	dir(pathlib.join(...pwd));
-	return list;
+	list.sort(function (a, b) {
+		if (a.path > b.path) {
+			return 0;
+		} else {
+			return -1;
+		}
+	});
+	files = list;
+}
+
+function updateTree() {
+	$('#file-tree').html(files.filter(el => el.type === 'directory').map(components.tree.node).join('\n'));
+	$('#file-tree > p').each(function () {
+		$(this).css('margin-left', 16 * (+$(this).attr('js-level') - 1));
+	});
 }

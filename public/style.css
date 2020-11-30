@@ -1,3 +1,7 @@
+:root {
+	--primary: #00b3e9;
+}
+
 * {
 	box-sizing: border-box;
 }
@@ -30,23 +34,42 @@ a, a:visited {
 .header {
 	display: flex;
 	flex-direction: row;
-	height: 10vh;
+	height: 6vh;
+	background-color: var(--primary);
 }
 
 .workspace {
 	display: flex;
 	flex-direction: row;
-	height: 100%;
+	flex: 1;
 }
 
-.sidebar {
+.workspace > .sidebar {
 	display: flex;
 	flex-direction: column;
-	width: 50vw;
+	width: 16vw;
+	border-right: 1px solid lightgrey;
 }
 
-.viewer {
+.workspace > .sidebar > .file-tree {
 	display: flex;
 	flex-direction: column;
-	width: 50vw;
+	padding: 4px;
+}
+
+.workspace > .sidebar > .file-tree > p {
+	padding: 4px 6px;
+	border-radius: 3px;
+}
+
+.workspace > .sidebar > .file-tree > p:hover {
+	background-color: var(--primary);
+	color: white;
+	cursor: pointer;
+}
+
+.workspace > .viewer {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
 }
