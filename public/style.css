@@ -52,7 +52,7 @@ a:visited {
   display: flex;
   flex-direction: column;
   width: 16vw;
-  border-right: 1px solid lightgrey;
+  border-right: 2px solid lightgrey;
 }
 
 .workspace > .folders-panel,

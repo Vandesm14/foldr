@@ -13,7 +13,8 @@ $(document).ready(function () {
 	getFiles();
 	updateTree();
 
-	$(document).on('dblclick', '#folders-panel .file-node > .node-name', function () {
+	$(document).on('dblclick', '#folders-panel .file-node > .node-name', function (e) {
+		if (e.target !== e.currentTarget) return;
 		$(this).parent().find('.node-children').toggleClass('state-closed');
 	});
 	$(document).on('click', '#folders-panel .file-node > .node-name', function (e) {
