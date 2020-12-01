@@ -1,20 +1,38 @@
 const fs = require('fs');
 const pathlib = require('path');
 const settings = {
-	ignore: ['.git', 'node_modules', '.vscode']
+	ignore: ['.git', '.vscode']
 };
 
 const params = new URLSearchParams(window.location.search);
 const path = params.get('path');
 let files = [];
+let filesList = [];
 
 $(document).ready(function () {
 	getFiles();
 	updateTree();
 
-	$(document).on('click', '#folders-panel > .file-node', function () {
-		if ($(this).attr('js-type') === 'directory') {
-			updateViewer.call(this);
+	$(document).on('dblclick', '#folders-panel .file-node > .node-name', function () {
+		$(this).parent().find('.node-children').toggleClass('state-closed');
+	});
+	$(document).on('click', '#folders-panel .file-node > .node-name', function (e) {
+		if (e.target !== e.currentTarget) return;
+		if ($(this).parent().attr('js-type') === 'directory') {
+			updateViewer.call($(this).parent());
+		} else {
+			// render file type
+		}
+	});
+
+	$(document).on('click', '#folders-panel .file-node > .node-name > .node-icon', function () {
+		$(this).closest('.file-node').find('.node-children').toggleClass('state-closed');
+	});
+
+	$(document).on('dblclick', '#files-panel .file-node > .node-name', function (e) {
+		if (e.target !== e.currentTarget) return;
+		if ($(this).parent().attr('js-type') === 'directory') {
+			updateViewer.call($(this).parent());
 		} else {
 			// render file type
 		}
@@ -24,6 +42,7 @@ $(document).ready(function () {
 function getFiles() {
 	let pwd = [path || '.'];
 	let list = [];
+	filesList = [];
 
 	function dir(path) {
 		let names = fs.readdirSync(path);
@@ -40,15 +59,17 @@ function getFiles() {
 				el.type = 'file';
 			} else {
 				pwd.push(el.name);
-				dir(pathlib.join(...pwd));
+				el.children = dir(pathlib.join(...pwd));
+				// filesList.push(...el.children);
 				el.type = 'directory';
 				pwd.pop();
 			}
+			filesList.push(el);
 			return el;
 		});
-		list.push(...names);
+		return names;
 	}
-	dir(pathlib.join(...pwd));
+	list = dir(pathlib.join(...pwd));
 	list.sort(function (a, b) {
 		if (a.path > b.path) {
 			return 0;
@@ -56,22 +77,40 @@ function getFiles() {
 			return -1;
 		}
 	});
+	filesList.sort(function (a, b) {
+		if (a.path > b.path) {
+			return 0;
+		} else {
+			return -1;
+		}
+	});
+	
 	files = list;
 }
 
 function updateTree() {
-	$('#folders-panel').html(files.filter(el => el.type === 'directory').map(components.tree.node).join('\n'));
+	$('#folders-panel').empty();
+	$('#folders-panel').html(filesList.filter(el => el.type === 'directory').map(components.tree.node).join('\n'));
 	$('#folders-panel > .file-node').each(function () {
 		$(this).css('padding-left', 3 + 6 * (+$(this).attr('js-level') - 1));
 		$(this).addClass('type-' + $(this).attr('js-type'));
+
+		if (+$(this).attr('js-level') > 1) {
+			$(this).appendTo($(`#folders-panel .file-node[js-path="${$(this).attr('js-parent')}"] > .node-children`));
+		}
 	});
 }
 
 function updateViewer() {
 	let that = this;
-	$('#files-panel').html(files.filter(el => el.parent.indexOf($(this).attr('js-path')) !== -1).map(components.tree.node).join('\n'));
+	$('#files-panel').empty();
+	$('#files-panel').html(filesList.filter(el => el.parent.indexOf(pathlib.join(...$(this).attr('js-path').split('/'))) !== -1).map(components.tree.node).join('\n'));
 	$('#files-panel > .file-node').each(function () {
 		$(this).css('padding-left', 3 + 6 * (+$(this).attr('js-level') - +$(that).attr('js-level') - 1));
 		$(this).addClass('type-' + $(this).attr('js-type'));
+
+		if (+$(this).attr('js-level') > 1) {
+			$(this).appendTo($(`#files-panel .file-node[js-path="${$(this).attr('js-parent')}"] > .node-children`));
+		}
 	});
 }

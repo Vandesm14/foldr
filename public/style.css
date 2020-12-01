@@ -69,21 +69,37 @@ a:visited {
 }
 
 .workspace .file-node {
-  padding: 3px;
-  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
 }
 
-.workspace .file-node:before {
+.workspace .file-node .node-name {
+  padding: 3px;
+  border-radius: 3px;
+
+  user-select: none;
+}
+
+.workspace .file-node > .node-name > .node-icon {
   padding: inherit;
   content: '📁';
 }
-.workspace .file-node.type-file:before {
+.workspace .file-node.type-file > .node-name > .node-icon {
   padding: inherit;
   content: '📄';
 }
 
-.workspace .file-node:hover {
+.workspace .file-node > .node-name:hover {
   background-color: var(--primary);
   color: white;
   cursor: pointer;
+}
+
+.workspace .file-node > .node-children {
+  overflow-y: hidden;
+  transition: height 100ms ease-out;
+}
+
+.workspace .file-node > .node-children.state-closed {
+  height: 0;
 }

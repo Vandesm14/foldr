@@ -1,7 +1,15 @@
 const components = {
 	tree: {
 		node: (node) => {
-			return `<p class="file-node" ${Object.keys(node).map(el => 'js-' + el + '="' + node[el]  + '"').join(' ')}>${node.name}</p>`
+			return `<div class="file-node" ${Object.keys(node).map(el => {
+				if (el === 'path' || el === 'parent') {
+					return 'js-' + el + '="' + node[el].replace(/\\/g, '/')  + '"';
+				} else if (el === 'children') {
+					return '';
+				} else {
+					return 'js-' + el + '="' + node[el]  + '"';
+				}
+			}).join(' ')}><p class="node-name"><span class="node-icon">${node.type === 'directory' ? '📁' : '📄'}</span>${node.name}</p><p class="node-children"></p></div>`
 		}
 	}
-}
+};
