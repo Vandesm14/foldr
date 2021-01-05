@@ -127,6 +127,7 @@ function updateTree() {
 
 function updateViewer(path) {
 	let that = this;
+	selected = [];
 	$('#files-panel').empty();
 	$('#folders-panel .file-node .node-name.active').removeClass('active');
 	$(`#folders-panel .file-node[js-path="${path}"] .node-name`).first().addClass('active');

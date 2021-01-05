@@ -49,13 +49,6 @@ a:visited {
   flex-direction: row;
 }
 
-.workspace > .folders-panel {
-  display: flex;
-  flex-direction: column;
-  width: 16vw;
-  border-right: 2px solid lightgrey;
-}
-
 .workspace > .folders-panel,
 .workspace > .files-panel {
   display: flex;
@@ -63,15 +56,26 @@ a:visited {
   padding: 4px;
 }
 
+.workspace > .folders-panel {
+  display: flex;
+  flex-direction: column;
+  width: 16vw;
+  border-right: 2px solid lightgrey;
+}
+
 .workspace > .files-panel {
   display: flex;
   flex: 1;
-  flex-direction: column;
+	flex-direction: column;
+}
+
+.workspace > .files-panel > .file-node {
+	max-width: 50%;
 }
 
 .workspace .file-node {
   display: flex;
-  flex-direction: column;
+	flex-direction: column;
 }
 
 .workspace .file-node .node-name {
