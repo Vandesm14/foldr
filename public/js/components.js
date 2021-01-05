@@ -3,7 +3,7 @@ const components = {
 		node: (node) => {
 			return `<div class="file-node" ${Object.keys(node).map(el => {
 				if (el === 'path' || el === 'parent') {
-					return 'js-' + el + '="' + node[el].replace(/\\/g, '/')  + '"';
+					return 'js-' + el + '="' + node[el].replace(/\\/g, '/')  + '"'; // TODO: Make sure that "\" isn't a linux escape
 				} else if (el === 'children') {
 					return '';
 				} else {
