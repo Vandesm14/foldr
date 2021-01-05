@@ -9,10 +9,24 @@ const params = new URLSearchParams(window.location.search);
 const dirname = params.get('path');
 let files = [];
 let filesList = [];
+let selected = [];
 
 $(document).ready(function () {
 	getFiles();
 	updateTree();
+
+	$(document).on('click', '#folders-panel', function (e) {
+		if (e.target !== e.currentTarget) return;
+		$('#folders-panel .active').removeClass('active');
+		$('#files-panel').empty();
+		selected = [];
+	});
+
+	$(document).on('click', '#files-panel', function (e) {
+		if (e.target !== e.currentTarget) return;
+		$('#files-panel .active').removeClass('active');
+		selected = [];
+	});
 
 	$(document).on('dblclick', '#folders-panel .file-node > .node-name', function (e) {
 		if (e.target !== e.currentTarget) return;
@@ -20,20 +34,26 @@ $(document).ready(function () {
 	});
 	$(document).on('click', '#folders-panel .file-node > .node-name', function (e) {
 		if (e.target !== e.currentTarget) return;
-		if ($(this).parent().attr('js-type') === 'directory') {
-			updateViewer($(this).parent().attr('js-path'));
-		} else {
-			// TODO: render file type
-		}
+		updateViewer($(this).parent().attr('js-path'));
 	});
 
 	$(document).on('click', '#folders-panel .file-node > .node-name > .node-icon', function () {
 		$(this).closest('.file-node').find('.node-children').toggleClass('state-closed');
 	});
 
-	$(document).on('click', '#files-panel .file-node > .node-name', function () {
-		$('#files-panel .file-node .node-name.active').removeClass('active');
-		$(this).addClass('active');
+	$(document).on('click', '#files-panel .file-node > .node-name', function (e) {		
+		if (!e.ctrlKey) {
+			$('#files-panel .file-node .node-name.active').removeClass('active');
+			$(this).addClass('active');
+			selected = [$(this).closest('.file-node').attr('js-path')];
+		} else {
+			$(this).toggleClass('active');
+			if (selected.indexOf($(this).closest('.file-node').attr('js-path')) === -1) {
+				selected.push($(this).closest('.file-node').attr('js-path'));
+			} else {
+				selected.splice(selected.indexOf($(this).closest('.file-node').attr('js-path')), 1);
+			}
+		}
 	});
 	$(document).on('dblclick', '#files-panel .file-node > .node-name', function (e) {
 		if ($(this).parent().attr('js-type') === 'directory') {
