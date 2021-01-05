@@ -1,3 +1,4 @@
+const { log } = require('console');
 const fs = require('fs');
 const pathlib = require('path');
 const settings = {
@@ -20,7 +21,7 @@ $(document).ready(function () {
 	$(document).on('click', '#folders-panel .file-node > .node-name', function (e) {
 		if (e.target !== e.currentTarget) return;
 		if ($(this).parent().attr('js-type') === 'directory') {
-			updateViewer.call($(this).parent());
+			updateViewer($(this).parent().attr('js-path'));
 		} else {
 			// TODO: render file type
 		}
@@ -33,7 +34,7 @@ $(document).ready(function () {
 	$(document).on('dblclick', '#files-panel .file-node > .node-name', function (e) {
 		if (e.target !== e.currentTarget) return;
 		if ($(this).parent().attr('js-type') === 'directory') {
-			updateViewer.call($(this).parent());
+			updateViewer($(this).parent().attr('js-path'));
 		} else {
 			// TODO: render file type
 		}
@@ -101,10 +102,13 @@ function updateTree() {
 	});
 }
 
-function updateViewer() {
+function updateViewer(path) {
 	let that = this;
 	$('#files-panel').empty();
-	$('#files-panel').html(filesList.filter(el => el.parent === pathlib.join(...$(this).attr('js-path').split('/'))).map(components.tree.node).join('\n'));
+	$('#folders-panel .file-node .node-name.active').removeClass('active');
+	$(`#folders-panel .file-node[js-path="${path}"] .node-name`).first().addClass('active');
+
+	$('#files-panel').html(filesList.filter(el => el.parent === pathlib.join(...path.split('/'))).map(components.tree.node).join('\n'));
 	$('#files-panel > .file-node').each(function () {
 		$(this).css('padding-left', 3 + 6 * (+$(this).attr('js-level') - +$(that).attr('js-level') - 1));
 		$(this).addClass('type-' + $(this).attr('js-type'));

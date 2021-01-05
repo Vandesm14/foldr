@@ -89,7 +89,8 @@ a:visited {
   content: '📄';
 }
 
-.workspace .file-node > .node-name:hover {
+.workspace .file-node > .node-name:hover,
+.workspace .file-node > .node-name.active {
   background-color: var(--primary);
   color: white;
   cursor: pointer;
