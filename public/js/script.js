@@ -31,8 +31,11 @@ $(document).ready(function () {
 		$(this).closest('.file-node').find('.node-children').toggleClass('state-closed');
 	});
 
+	$(document).on('click', '#files-panel .file-node > .node-name', function () {
+		$('#files-panel .file-node .node-name.active').removeClass('active');
+		$(this).addClass('active');
+	});
 	$(document).on('dblclick', '#files-panel .file-node > .node-name', function (e) {
-		if (e.target !== e.currentTarget) return;
 		if ($(this).parent().attr('js-type') === 'directory') {
 			updateViewer($(this).parent().attr('js-path'));
 		} else {
