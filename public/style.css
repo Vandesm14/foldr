@@ -1,5 +1,6 @@
 :root {
-  --primary: #5795ff;
+	--primary: #5795ff;
+	--secondary: #29d8ff;
 }
 
 * {
@@ -89,8 +90,12 @@ a:visited {
   content: '📄';
 }
 
-.workspace .file-node > .node-name:hover,
 .workspace .file-node > .node-name.active {
+  background-color: var(--secondary);
+  color: black;
+  cursor: pointer;
+}
+.workspace .file-node > .node-name:hover {
   background-color: var(--primary);
   color: white;
   cursor: pointer;
